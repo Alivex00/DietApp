@@ -18,6 +18,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using DietApp.DataAccessLayer.Models;
+using DietApp.DataAccessLayer;
+using DietApp.DataAccessLayer.Interfaces;
+using AutoMapper;
+using DietApp.BusinessLogic.Infractructure;
+using DietApp.BusinessLogic.Interfaces;
+using DietApp.BusinessLogic.Services;
 
 namespace DietApp.API
 {
@@ -33,13 +39,16 @@ namespace DietApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
             services.AddControllers();
 
-            services.AddDbContext<AuthenticationContext>(options
-                => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            services.AddDbContext<AuthenticationContext>(options =>
+                options.UseSqlServer(connectionString: Configuration.GetConnectionString("IdentityConnection")));
+            ConfigureAutoMapper(services);
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
@@ -76,6 +85,9 @@ namespace DietApp.API
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddTransient<IDbContext,AuthenticationContext>();
+            services.AddSingleton<IMealService, MealService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +115,17 @@ namespace DietApp.API
             {
                 endpoints.MapControllers();
             });
+
+
+        }
+        private void ConfigureAutoMapper(IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
     }
 }

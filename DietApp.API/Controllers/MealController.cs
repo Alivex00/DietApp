@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DietApp.BusinessLogic.Interfaces;
+using DietApp.DataAccessLayer;
 using DietApp.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,60 +15,21 @@ namespace DietApp.API.Controllers
     [ApiController]
     public class MealController : ControllerBase
     {
+        private readonly IMealService _mealService;
         private readonly AuthenticationContext _context;
-        public MealController(AuthenticationContext context)
+        public MealController(AuthenticationContext context, IMealService mealService)
         {
             _context = context;
+            _mealService = mealService;
         }
         // GET: api/Meal
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetMeals()
+        public async Task<IActionResult> GetMeals()
         {
-            return await _context.Products.ToListAsync();
-        }
-
-        // GET: api/Meal/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetMeal(int id)
-        {
-            var meal = await _context.Products.FindAsync(id);
-
-            if (meal == null)
-            {
-                return NotFound();
-            }
-
-            return meal;
-        }
-
-        // PUT: api/Meal/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Putmeal(int id, Product meal)
-        {
-            if (id != meal.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(meal).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MealExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var products = await _mealService.GetMealsAsync();
+            if (products == null)
+                return BadRequest("Error");
+            return Ok(products);
         }
 
         // POST: api/Meal
