@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietApp.API", "DietApp.API\DietApp.API.csproj", "{2D588C0E-EF2B-43B6-B83C-1547690D1C22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietApp.DataAccessLayer", "DietApp.DataAccessLayer\DietApp.DataAccessLayer.csproj", "{E9A8B971-9FC6-4CA1-AD97-4962A7786585}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D588C0E-EF2B-43B6-B83C-1547690D1C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D588C0E-EF2B-43B6-B83C-1547690D1C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D588C0E-EF2B-43B6-B83C-1547690D1C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D588C0E-EF2B-43B6-B83C-1547690D1C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A8B971-9FC6-4CA1-AD97-4962A7786585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A8B971-9FC6-4CA1-AD97-4962A7786585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A8B971-9FC6-4CA1-AD97-4962A7786585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A8B971-9FC6-4CA1-AD97-4962A7786585}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9802F8A-6ECE-4740-81E4-099CB0AFD1AA}
+	EndGlobalSection
+EndGlobal
