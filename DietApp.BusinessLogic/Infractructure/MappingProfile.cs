@@ -13,6 +13,8 @@ namespace DietApp.BusinessLogic.Infractructure
         {
             CreateMap<Product, ProductDto>()
                 .ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserDto>()
+                .ReverseMap();
         }
     }
 }

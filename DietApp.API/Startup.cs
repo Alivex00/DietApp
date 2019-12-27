@@ -54,6 +54,10 @@ namespace DietApp.API
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
+            services.AddTransient<IDbContext, AuthenticationContext>();
+            services.AddTransient<IMealService, MealService>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -85,8 +89,7 @@ namespace DietApp.API
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddTransient<IDbContext,AuthenticationContext>();
-            services.AddSingleton<IMealService, MealService>();
+            
 
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DietApp.BusinessLogic.DTOs;
 using DietApp.BusinessLogic.Interfaces;
 using DietApp.DataAccessLayer;
 using DietApp.DataAccessLayer.Models;
@@ -16,10 +17,8 @@ namespace DietApp.API.Controllers
     public class MealController : ControllerBase
     {
         private readonly IMealService _mealService;
-        private readonly AuthenticationContext _context;
-        public MealController(AuthenticationContext context, IMealService mealService)
+        public MealController(IMealService mealService)
         {
-            _context = context;
             _mealService = mealService;
         }
         // GET: api/Meal
@@ -34,33 +33,24 @@ namespace DietApp.API.Controllers
 
         // POST: api/Meal
         [HttpPost]
-        public async Task<ActionResult<Product>> PostMeal(Product meal)
+        public async Task<IActionResult> PostMeal(ProductDto meal)
         {
-            _context.Products.Add(meal);
-            await _context.SaveChangesAsync();
+            await _mealService.PostMealAsync(meal);
 
-            return CreatedAtAction("GetMeal", new { id = meal.Id }, meal);
+            return Ok();
         }
 
         // DELETE: api/Meal/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteMeal(int id)
+        public async Task<IActionResult> DeleteMeal(int id)
         {
-            var meal = await _context.Products.FindAsync(id);
+            var meal = await _mealService.DeleteMealAsync(id);
             if (meal == null)
             {
                 return NotFound();
             }
-
-            _context.Products.Remove(meal);
-            await _context.SaveChangesAsync();
-
-            return meal;
+            return Ok(meal);
         }
 
-        private bool MealExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
-        }
     }
 }

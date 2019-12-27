@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DietApp.BusinessLogic.Interfaces;
 using DietApp.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,10 @@ namespace DietApp.API.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private UserManager<ApplicationUser> _userManager;
-        public UserProfileController(UserManager<ApplicationUser> userManager)
+        private readonly IUserProfileService _userProfileService;
+        public UserProfileController(IUserProfileService userProfileService)
         {
-            _userManager = userManager;
+            _userProfileService = userProfileService;
         }
         [HttpGet]
         [Authorize]
@@ -26,37 +27,10 @@ namespace DietApp.API.Controllers
         public async Task<Object> GetUserProfile()
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
-            {
-                user.Fullname,
-                user.Email,
-                user.UserName,
-                user.Id
-            };
-        }
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Route("ForAdmin")]
-        public string GetForAdmin()
-        {
-            return "Web method for Admin";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Customer")]
-        [Route("ForCustomer")]
-        public string GetForCustomer()
-        {
-            return "Web method for Customer";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, Customer")]
-        [Route("ForAdminOrCustomer")]
-        public string GetForAdminorCustomer()
-        {
-            return "Web method for Admin or Customer";
+            var products = await _userProfileService.GetMealsAsync(userId);
+            if (products == null)
+                return BadRequest("Error");
+            return Ok(products);
         }
     }
 }

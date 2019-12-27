@@ -2,6 +2,7 @@
 using DietApp.BusinessLogic.DTOs;
 using DietApp.BusinessLogic.Interfaces;
 using DietApp.DataAccessLayer.Interfaces;
+using DietApp.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,22 @@ namespace DietApp.BusinessLogic.Services
             return mappedProducts;
         }
 
-        public async Task<IEnumerable<ProductDto>> PostMealAsync(ProductDto meal)
+        public async Task PostMealAsync(ProductDto meal)
         {
-            var mappedMeal - _mapper.Map<Product>
-            await _context.Products.Add(meal);
-            await _context.Products.SaveChangesAsync();
+            var mappedMeal = _mapper.Map<Product>(meal);
+            _context.Products.Add(mappedMeal);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ProductDto> DeleteMealAsync(int id)
+        {
+            var meal = await _context.Products.FindAsync(id);
+            var mappedMeal = _mapper.Map<ProductDto>(meal);
+            _context.Products.Remove(meal);
+            await _context.SaveChangesAsync();
+            return mappedMeal;
+
+
         }
     }
 }
