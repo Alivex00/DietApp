@@ -57,6 +57,7 @@ namespace DietApp.API
             services.AddTransient<IDbContext, AuthenticationContext>();
             services.AddTransient<IMealService, MealService>();
             services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IApplicationUserService, ApplicationUserService>();
 
             services.Configure<IdentityOptions>(options =>
             {

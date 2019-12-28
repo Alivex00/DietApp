@@ -8,6 +8,6 @@ namespace DietApp.BusinessLogic.Interfaces
 {
     public interface IUserProfileService
     {
-        Task<ApplicationUserDto> GetMealsAsync(string userId);
+        Task<ApplicationUserDto> GetUsersAsync(string userId);
     }
 }

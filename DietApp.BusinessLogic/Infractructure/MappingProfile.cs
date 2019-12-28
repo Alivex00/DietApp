@@ -15,6 +15,12 @@ namespace DietApp.BusinessLogic.Infractructure
                 .ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserDto>()
                 .ReverseMap();
+            CreateMap<ApplicationUserModel, ApplicationUserDto>()
+                .ReverseMap();
+            CreateMap<ApplicationSettings, ApplicationSettingsDto>()
+                .ReverseMap();
+            CreateMap<LoginModel, LoginDto>()
+                .ReverseMap();
         }
     }
 }

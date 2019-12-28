@@ -24,10 +24,10 @@ namespace DietApp.API.Controllers
         [Authorize]
         //GET : /api/UserProfile
 
-        public async Task<Object> GetUserProfile()
+        public async Task<IActionResult> GetUserProfile()
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var products = await _userProfileService.GetMealsAsync(userId);
+            var products = await _userProfileService.GetUsersAsync(userId);
             if (products == null)
                 return BadRequest("Error");
             return Ok(products);

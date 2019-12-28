@@ -23,7 +23,7 @@ namespace DietApp.BusinessLogic.Services
             _userManager = userManager;
         }
 
-        public async Task<ApplicationUserDto> GetMealsAsync(string userId)
+        public async Task<ApplicationUserDto> GetUsersAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var mappedUser = _mapper.Map<ApplicationUserDto>(user);
